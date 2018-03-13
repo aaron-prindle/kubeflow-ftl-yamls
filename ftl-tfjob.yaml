@@ -1,0 +1,45 @@
+apiVersion: "kubeflow.org/v1alpha1"
+kind: "TFJob"
+metadata:
+  name: "tfjob-v2"
+spec:
+  replicaSpecs:
+    - replicas: 1
+      tfReplicaType: MASTER
+      template:
+        spec:
+          containers:
+          - image: gcr.io/aprindle-vm/tensorflow_test_v2-image:latest
+            name: tensorflow
+            command:
+            - /bin/bash
+            - -c
+            args:
+            - sed -i 's/\/tmp.*\/env/\/env/g' /env/bin/activate && source /env/bin/activate && python /srv/tf_smoke.py
+          restartPolicy: OnFailure
+    - replicas: 1
+      tfReplicaType: WORKER
+      template:
+        spec:
+          containers:
+          - image: gcr.io/aprindle-vm/tensorflow_test_v2-image:latest
+            name: tensorflow
+            command:
+            - /bin/bash
+            - -c
+            args:
+            - sed -i 's/\/tmp.*\/env/\/env/g' /env/bin/activate && source /env/bin/activate && python /srv/tf_smoke.py
+          restartPolicy: OnFailure
+    - replicas: 2
+      tfReplicaType: PS
+      template:
+        spec:
+          containers:
+          - image: gcr.io/aprindle-vm/tensorflow_test_v2-image:latest
+            name: tensorflow
+            command:
+            - /bin/bash
+            - -c
+            args:
+            - sed -i 's/\/tmp.*\/env/\/env/g' /env/bin/activate && source /env/bin/activate && python /srv/tf_smoke.py
+          restartPolicy: OnFailure

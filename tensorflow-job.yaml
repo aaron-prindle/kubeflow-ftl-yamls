@@ -1,0 +1,17 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: tensforflow-job27
+spec:
+  template:
+    spec:
+      containers:
+      - name: tensorflow-job
+        image: gcr.io/aprindle-vm/tensorflow_test-image:latest
+        command:
+        - /bin/bash
+        - -c
+        args:
+        - sed -i 's/\/tmp.*\/env/\/env/g' /env/bin/activate && source /env/bin/activate && python /srv/tf_smoke.py
+      restartPolicy: Never
+  backoffLimit: 4

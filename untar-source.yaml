@@ -1,0 +1,21 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: untar-source12
+spec:
+  template:
+    spec:
+      containers:
+      - name: ubuntu
+        image: ubuntu
+        args: ['tar', '-xf', '/mnt/tensor.tar.gz',
+        '-C', '/mnt']
+        volumeMounts:
+        - mountPath: /mnt
+          name: pd
+      volumes:
+      - name: pd
+        gcePersistentDisk:
+          pdName: my-disk-4
+      restartPolicy: Never
+  backoffLimit: 4

@@ -1,0 +1,12 @@
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: my-disk-4
+spec:
+  capacity:
+    storage: 200Gi
+  accessModes:
+    - ReadWriteMany
+  gcePersistentDisk:
+    pdName: "my-disk-4"
+    fsType: "ext4"

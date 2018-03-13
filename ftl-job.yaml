@@ -1,0 +1,22 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: ftl-build14
+spec:
+  template:
+    spec:
+      containers:
+      - name: ftl-python
+        image: gcr.io/gcp-runtimes/ftl_python_build:ba98ee760b80ed23f42bcd5c6e7b7dc8b8c7ea2a
+        args: ['--base', 'gcr.io/google-appengine/python',
+        '--name', 'gcr.io/aprindle-vm/tensorflow-test-v5:latest',
+        '--directory','/mnt/tensorflow_test']
+        volumeMounts:
+        - mountPath: /mnt
+          name: pd
+      volumes:
+      - name: pd
+        gcePersistentDisk:
+          pdName: my-disk-4
+      restartPolicy: Never
+  backoffLimit: 4
