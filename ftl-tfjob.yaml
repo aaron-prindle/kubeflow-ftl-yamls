@@ -1,7 +1,7 @@
 apiVersion: "kubeflow.org/v1alpha1"
 kind: "TFJob"
 metadata:
-  name: "tfjob-v2"
+  name: "tfjob"
 spec:
   replicaSpecs:
     - replicas: 1
